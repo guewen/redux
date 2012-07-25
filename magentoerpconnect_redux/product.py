@@ -19,4 +19,20 @@
 #
 ##############################################################################
 
-#import product
+
+from openerp.osv.orm import Model
+from tasks import product as tasks
+
+
+class product_product(Model):
+    _inherit = 'product.product'
+
+    def write(self, cr, uid, ids, vals, context=None):
+        for product_id in ids:
+            #if 'name' in vals:
+            #    cr._on_commit_task(tasks.death_loop.s(product_id, vals.keys()))
+            #else:
+            cr._on_commit_task(tasks.export.s(product_id, vals.keys()))
+        return super(product_product, self).write(
+                cr, uid, ids, vals, context=context)
+

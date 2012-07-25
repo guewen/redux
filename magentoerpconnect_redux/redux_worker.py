@@ -10,27 +10,17 @@ Celery Worker re-uses openerp-server command-line options but does
 not honor all of them.
 
 
-To run with `celery worker --app=celery_worker -l info`
+To run with `celery worker --app=redux_worker -l info -E`
 
-Meaningful options include:
+Use celeryev to view events
 
-  -d, --database  database on which tasks are performed
 
-  --addons-path   as usual.
-
-  --cpu-time-limit
-  --virtual-memory-limit
-  --virtual-memory-reset  Those three options have the same meaning the for
-                          the server with Gunicorn. The only catch is: To
-                          not enable rlimits by default, those options are
-                          honored only when --cpu-time-limte is different than
-                          60 (its default value).
 """
 
 
 import sys
 # FIXME: config file?
-openerp_path = '/home/guewen/code/openerp/trunk/server'
+openerp_path = '/home/guewen/code/openerp/redux/server'
 sys.path.insert(0, openerp_path)
 
 
@@ -53,6 +43,7 @@ def report_configuration():
     config = openerp.tools.config
     _logger.info("OpenERP version %s", __version__)
     _logger.info("Magentoerpconnect Redux version %s", __redux_version__)
+    # TODO add celery config
     for name, value in [('addons paths', config['addons_path']),
                         ('database hostname', config['db_host'] or 'localhost'),
                         ('database port', config['db_port'] or '5432'),
@@ -70,10 +61,10 @@ config = openerp.tools.config
 # FIXME: config file?
 config['db_name'] = 'redux'
 config['addons_path'] = (
-    '/home/guewen/code/openerp/trunk/server/addons,'
-    '/home/guewen/code/openerp/trunk/addons,'
-    '/home/guewen/code/openerp/trunk/openerp-web/addons,'
-    '/home/guewen/code/openerp/trunk/magentoerpconnect-redux'
+    '/home/guewen/code/openerp/redux/server/openerp/addons,'
+    '/home/guewen/code/openerp/redux/addons,'
+    '/home/guewen/code/openerp/redux/openerp-web/addons,'
+    '/home/guewen/code/openerp/redux/magentoerpconnect-redux'
 )
 
 if not config['db_name']:
@@ -88,7 +79,7 @@ openerp.multi_process = True # enable multi-process signaling
 report_configuration()
 
 celery = Celery('tasks', backend='amqp', broker='amqp://')
-celery.config_from_object('celeryconfig')
+#celery.config_from_object('celeryconfig')
 
 import openerp.addons.magentoerpconnect_redux.tasks as tasks
 

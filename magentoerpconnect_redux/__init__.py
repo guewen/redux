@@ -19,5 +19,6 @@
 #
 ##############################################################################
 
-from .tasks import *
-from .models import *
+import sql_db
+import tasks
+import product

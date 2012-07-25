@@ -29,7 +29,7 @@ Experimental module
 """,
 'author': 'Guewen Baconnier',
 'website': 'http://www.camptocamp.com',
-'depends': ['base'],
+'depends': ['base', 'product'],
 'init_xml': [],
 'update_xml': [
 ],
