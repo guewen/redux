@@ -22,3 +22,4 @@
 import sql_db
 import tasks
 import product
+import magento_core
