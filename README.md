@@ -18,6 +18,7 @@ If you are really motivated to test:
  * Start the openerp server
  * run the celery worker with the same configuration (in `redux_worker.py`)
 
+       cd magentoerpconnect_redux
        celery worker --app=redux_worker -l info -E
 
  * Install the product and magentoerpconnect_redux modules
