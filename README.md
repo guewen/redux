@@ -20,7 +20,7 @@ If you are really motivated to test:
 
        celery worker --app=redux_worker -l info -E
 
- * Install the product module
+ * Install the product and magentoerpconnect_redux modules
  * Edit a product
  * Check the server logs and celery worker logs
 
