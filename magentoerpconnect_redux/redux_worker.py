@@ -6,10 +6,6 @@ Celery Worker for Magentoerpconnect Redux
 
 This script executes OpenERP instances to run Celery tasks.
 
-Celery Worker re-uses openerp-server command-line options but does
-not honor all of them.
-
-
 To run with `celery worker --app=redux_worker -l info -E`
 
 Use celeryev to view events
@@ -19,6 +15,9 @@ Use celeryev to view events
 
 
 import sys
+
+# Add openerp server in the python path
+# so we can import openerp
 # FIXME: config file?
 openerp_path = '/home/guewen/code/openerp/redux/server'
 sys.path.insert(0, openerp_path)
@@ -28,7 +27,6 @@ import logging
 import os
 
 import openerp
-__author__ = openerp.release.author
 __version__ = openerp.release.version
 __redux_version__ = '0.1'
 
@@ -58,7 +56,7 @@ os.environ['TZ'] = 'UTC'
 
 config = openerp.tools.config
 
-# FIXME: config file?
+# FIXME: config file
 config['db_name'] = 'redux'
 config['addons_path'] = (
     '/home/guewen/code/openerp/redux/server/openerp/addons,'
@@ -74,7 +72,6 @@ openerp.modules.module.initialize_sys_path()
 openerp.modules.loading.open_openerp_namespace()
 openerp.netsvc.init_logger()
 
-#TODO what is this used for
 openerp.multi_process = True # enable multi-process signaling
 report_configuration()
 
